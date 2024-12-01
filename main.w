@@ -19,11 +19,16 @@ define : draw alpha
     . #:scale : vec2 2.0 2.0    
   player-draw  
   enemy-auto-draw
+  
 
 ;;UPDATE
 define : update delta
-  update-agenda delta  
-  player-move  
+  update-agenda delta
+  player-move!
   enemy-auto-move
+  
+  ;;ADDITIONAL CHECKS FROM CHALLENGES DIRECTORY
+  lose-score-when-touched!
+  
 
 ;;SNIPPETS IN WISP GOES BELOW
