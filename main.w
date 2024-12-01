@@ -3,11 +3,12 @@ include "utils.scm"
 include "player.scm"
 include "enemy.scm"
 include "score.scm"
+include "challenge-loader.scm"
 
 ;;DRAW
 define : draw alpha
   draw-text
-    format #f "Score: ~d" score
+    format #f "Score: ~d" : score-to-show
     vec2 240.0 460.0
     . #:scale : vec2 2.0 2.0
   draw-text
@@ -25,4 +26,4 @@ define : update delta
   player-move  
   enemy-auto-move
 
-include "challenge-loader.scm"
+;;SNIPPETS IN WISP GOES BELOW
