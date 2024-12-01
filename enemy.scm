@@ -7,6 +7,15 @@
   (set! enemy-speed-list
 	(cons (random:uniform) enemy-speed-list)))
 
+(define (enemy-pop!)
+  (unless (null? enemy-position-list)
+    (set! enemy-position-list (cdr enemy-position-list))
+    (set! enemy-speed-list (cdr enemy-speed-list))))
+
+(define (enemy-clean!)
+  (set! enemy-position-list '())
+  (set! enemy-speed-list '()))
+
 (define (enemy-auto-move)
   (unless (null? enemy-position-list)
     (for-each

@@ -3,7 +3,6 @@ include "utils.scm"
 include "player.scm"
 include "enemy.scm"
 include "score.scm"
-include "challenge-loader.scm"
 
 ;;DRAW
 define : draw alpha
@@ -25,3 +24,5 @@ define : update delta
   update-agenda delta  
   player-move  
   enemy-auto-move
+
+include "challenge-loader.scm"
