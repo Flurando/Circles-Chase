@@ -1,8 +1,10 @@
 * Things to do
-** TODO substract 1 from score when enemy touches player
-** TODO implement a health bar that changes when player is touched by enemy
-** TODO make a scene switch machenism
+** DONE substract 1 from score when enemy touches player
+** DONE implement a health bar that changes when player is touched by enemy
+** TODO implement a scene switch machenism
 ** TODO write some scenes
 - [ ] start up
 - [ ] win
 - [ ] game over / credit
+** TODO enter start up scene at first without drawing the other scenes
+** TODO enter game over / credit scene when player health is 0
