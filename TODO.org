@@ -1,7 +1,7 @@
 * Things to do
 ** DONE substract 1 from score when enemy touches player
 ** DONE implement a health bar that changes when player is touched by enemy
-** TODO implement a scene switch machenism
+** DONE implement a scene switch machenism
 ** TODO write some scenes
 - [ ] start up
 - [ ] win
