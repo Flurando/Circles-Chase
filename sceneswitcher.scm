@@ -5,6 +5,11 @@
   ;;Thus, I would assume a scene as a pair whose car is the alist key and cdr is another pair, whose car is a procedure which would call all the drawing procedures and the cdr is another procedure calling all the checking procedures.
   (set! scene-pool (cons scene scene-pool)))
 
+(define (scene-delete! scene-symbol)
+  (if (not (symbol? scene-symbol))
+      (begin (display "wrong!")(newline))
+      (set! scene-pool (assq-remove! scene-pool scene-symbol))))
+
 (define (scene-draw!)
   (for-each (lambda (x) (apply x '()))
 	    (map (lambda (p)
