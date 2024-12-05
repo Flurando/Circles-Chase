@@ -15,26 +15,11 @@
           (vec2 260.0 200.0)
           #:color white
           #:scale (vec2 3.0 3.0)))
-     (let ((flag #t) (start-button-rect (rect 260.0 200.0 60.0 30.0)))
-       (lambda ()
-         (when
-           (and
-             flag
-             (mouse-button-pressed? 'left)
-             (rect-contains? start-button-rect
-               (mouse-x)
-               (mouse-y)))
-           (set! flag #f)
-           (call-when
-             (and
-               (mouse-button-released? 'left)
-               (rect-contains? start-button-rect
-                 (mouse-x)
-                 (mouse-y)))
-             (lambda ()
-               (scene-delete! 'startup-scene)
-               (scene-register! sample-scene)
-               (scene-register! score-and-time-scene)))))))))
+      (lambda ()
+        (when (mouse-button-down? 'left)
+          (scene-delete! 'startup-scene)
+          (scene-register! sample-scene)
+          (scene-register! score-and-time-scene))))))
 
 (scene-register! startup-scene)
 
