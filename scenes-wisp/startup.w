@@ -16,7 +16,7 @@ define startup-scene
           . #:color white
           . #:scale : vec2 3.0 3.0
       lambda : 
-        when : mouse-button-down? 'left
+        when : mouse-button-pressed? 'left
           scene-delete! 'startup-scene
           scene-register! sample-scene
           scene-register! score-and-time-scene
