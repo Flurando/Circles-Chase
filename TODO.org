@@ -8,3 +8,4 @@
 - [ ] game over / credit
 ** TODO enter start up scene at first without drawing the other scenes
 ** TODO enter game over / credit scene when player health is 0
+** TODO implement a challenge switcher that can manage agendas and scripts

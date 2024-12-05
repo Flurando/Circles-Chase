@@ -15,5 +15,3 @@ define score-and-time-scene
           . #:scale : vec2 2.0 2.0
 
       . void
-
-scene-register! score-and-time-scene

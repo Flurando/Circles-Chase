@@ -16,6 +16,5 @@
 
       void)))
 
-(scene-register! score-and-time-scene)
 
 
