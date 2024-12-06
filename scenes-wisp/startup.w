@@ -20,7 +20,7 @@ define startup-scene
           . #:color white
           . #:scale : vec2 3.0 3.0
      let : (flag #t) (start-button-rect (rect 260.0 200.0 120.0 80.0))
-       lambda : 
+       lambda : dt 
          when
            and
              . flag

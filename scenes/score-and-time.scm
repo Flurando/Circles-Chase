@@ -9,12 +9,11 @@
           #:scale (vec2 2.0 2.0))
         (draw-text
           (format #f "Time: ~d seconds"
-            (inexact->exact (truncate-quotient (agenda-time) 1)))
+            (inexact->exact (truncate-quotient (with-agenda play-timer (agenda-time)) 1)))
           (vec2 220.0 420.0)
           #:color red
           #:scale (vec2 2.0 2.0)))
-
+      
       void)))
-
 
 

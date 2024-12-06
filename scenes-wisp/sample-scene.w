@@ -8,7 +8,9 @@ define sample-scene
         player-draw
         enemy-auto-draw
 
-      lambda : ;;this is wehre all updating calls go
+      lambda : dt ;;this is wehre all updating calls go
+        with-agenda play-timer
+          update-agenda dt
         player-move!
         enemy-auto-move
         

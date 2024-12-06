@@ -1,5 +1,4 @@
 (define score 0)
-(define score-timer (make-agenda))
 
 (define (score-to-show)
   (if (> score 0)
@@ -12,9 +11,10 @@
 (define (score-gain! num)
   (set! score (+ score num)))
 
-(every 1
-       (with-agenda score-timer
-		    (update-agenda 1)))
+(with-agenda play-timer
+	     (every 1
+		    (with-agenda score-timer
+				 (update-agenda 1))))
 
 (with-agenda score-timer
 	     (schedule-every

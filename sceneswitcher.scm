@@ -11,13 +11,13 @@
       (set! scene-pool (assq-remove! scene-pool scene-symbol))))
 
 (define (scene-draw!)
-  (for-each (lambda (x) (apply x '()))
+  (for-each (lambda (x) (x))
 	    (map (lambda (p)
 		   (cadr p))
 		 scene-pool)))
 
-(define (scene-update!);;not naming it ...-check! just to be the same of the main game loop naming conventions
-  (for-each (lambda (x) (apply x '()))
+(define (scene-update! delta);;not naming it ...-check! just to be the same of the main game loop naming conventions
+  (for-each (lambda (x) (x delta))
 	    (map (lambda (p)
 		   (cddr p))
 		 scene-pool)))

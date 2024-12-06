@@ -1,2 +1,3 @@
-(every (5 5)
-       (enemy-spawn!))
+(with-agenda play-timer
+	     (every (5 5)
+		    (enemy-spawn!)))

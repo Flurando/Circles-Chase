@@ -3,5 +3,5 @@
       1
       0))
 
-(define (void)
+(define (void . args)
   (if #f #f))
