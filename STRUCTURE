@@ -40,9 +40,9 @@ key->1 FROM utils.scm
 
 void FROM utils.scm
 
-score-timer FROM agendas.scm
+score-timer FROM agendas.scm USED IN score.scm
 
-play-timer FROM agendas.scm
+play-timer FROM agendas.scm USED IN score.scm
 
 position FROM player.scm USED IN enemy.scm
 
@@ -57,3 +57,19 @@ enemy-spawn! FROM enemy.scm
 enemy-auto-move FROM enemy.scm
 
 enemy-auto-draw FROM enemy.scm
+
+score-to-show FROM score.scm
+
+score-gain! FROM score.scm
+
+score-lose! FROM score.scm
+
+healthbar-draw FROM healthbar.scm
+
+scene-register! FROM sceneswitcher.scm
+
+scene-delete! FROM sceneswitcher.scm
+
+scene-draw! FROM sceneswitcher.scm
+
+scene-update! FROM sceneswitcher.scm
