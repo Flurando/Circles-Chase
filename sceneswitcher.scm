@@ -21,3 +21,9 @@
 	    (map (lambda (p)
 		   (cddr p))
 		 scene-pool)))
+
+(define scene-switch!
+  (lambda (scene-to-remove scene-to-show)
+    (after 1
+	   (map scene-delete! scene-to-remove)
+	   (map scene-register! scene-to-show))))

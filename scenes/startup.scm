@@ -29,10 +29,10 @@
                (mouse-x)
                (mouse-y)))
            (set! flag #f)
-           (after 1
-               (scene-delete! 'startup-scene)
-               (scene-register! sample-scene)
-               (scene-register! score-and-time-scene))))))))
+	   (after 10 (set! flag #t))
+           (scene-switch!
+             (list 'startup-scene)
+             (list sample-scene score-and-time-scene))))))))
 
 (scene-register! startup-scene)
 
