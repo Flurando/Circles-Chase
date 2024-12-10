@@ -33,6 +33,7 @@ define startup-scene
            scene-switch!
              list 'startup-scene
              list sample-scene score-and-time-scene
+           new-enemy-every-5s
 
 scene-register! startup-scene
 

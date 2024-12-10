@@ -9,11 +9,14 @@
           #:scale (vec2 5.0 5.0)))
       (let ((flag #t))
        (lambda (dt )
+         (set! play-timer (make-agenda))
+         (enemy-clean!)
          (when
            (and
              flag
              (mouse-button-pressed? 'left))
            (set! flag #f)
+           (after 1 (set! flag #t))
            (scene-switch!
              (list 'win-scene)
              (list startup-scene))))))))
