@@ -29,11 +29,11 @@
                (mouse-x)
                (mouse-y)))
            (set! flag #f)
-           (after 10 (set! flag #t))
            (scene-switch!
              (list 'startup-scene)
              (list sample-scene score-and-time-scene))
-           (new-enemy-every-5s)))))))
+           (new-enemy-every-5s)
+	   (set! flag #t)))))))
 
 (scene-register! startup-scene)
 

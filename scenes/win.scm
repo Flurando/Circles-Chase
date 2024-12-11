@@ -9,8 +9,6 @@
           #:scale (vec2 5.0 5.0)))
       (let ((flag #t))
        (lambda (dt )
-         (set! play-timer (make-agenda))
-         (enemy-clean!)
          (when
            (and
              flag

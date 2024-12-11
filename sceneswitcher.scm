@@ -12,18 +12,21 @@
 
 (define (scene-draw!)
   (for-each (lambda (x) (x))
-	    (map (lambda (p)
+	    (map-in-order (lambda (p)
 		   (cadr p))
 		 scene-pool)))
 
 (define (scene-update! delta);;not naming it ...-check! just to be the same of the main game loop naming conventions
   (for-each (lambda (x) (x delta))
-	    (map (lambda (p)
+	    (map-in-order (lambda (p)
 		   (cddr p))
 		 scene-pool)))
 
+(define scene-switching-flag #f)
 (define scene-switch!
   (lambda (scene-to-remove scene-to-show)
-    (after 1
-	   (map scene-delete! scene-to-remove)
-	   (map scene-register! scene-to-show))))
+    (unless scene-switching-flag
+      (set! scene-switching-flag #t)
+      (for-each scene-delete! scene-to-remove)
+      (for-each scene-register! scene-to-show)
+      (set! scene-switching-flag #f))))
