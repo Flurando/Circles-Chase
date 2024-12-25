@@ -1,0 +1,13 @@
+# -*- mode: org; coding: utf-8; -*-
+
+#+TITLE: README for Circle-Chase
+#+AUTHOR: Flurando
+
+* Introduction
+
+* Note
+This embeded hall-generated project is for an attempt of solving the barrier I am facing now, by following the strict modular approach and the harder way of coding
+I used to use "include" and "load" alongwith "chickadee play", also I preferred procedures over scripts provided by chickdee
+So I decide to implement the same stuff using a more recommended way of managing the components
+Hope it works!
+
