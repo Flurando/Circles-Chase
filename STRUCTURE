@@ -20,9 +20,11 @@ This file shows how the project is structured now, with aspects of:
 
 [sceneswitcher.scm]: a system of managing scenes. Actually it is just a list and two procedures that can iterately call the procedures wrapped up in the list
 
+[challengeswitcher.scm]: a system of managing challenges. Not implemented yet.
+
 [loader.scm]: scan directory and load everything in it at execution time. Used for loading challenges and scenes.
 
-[TODO.org]: a todo list listing out the functionality I am working on or trying to implement (fine, I know these are simple for old folks)
+[TODO.org]: a todo list listing out the functionality I am working on or trying to implement (fine, I know these are simpler or at least quicker for old folks)
 
 [README]: introduction to this toy learning project
 
