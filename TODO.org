@@ -2,13 +2,13 @@
 ** DONE substract 1 from score when enemy touches player
 ** DONE implement a health bar that changes when player is touched by enemy
 ** DONE implement a scene switch machenism
-** TODO write some scenes [1/3]
+** TODO write some scenes [2/3]
 - [X] start up
 - [ ] win
-- [ ] game over / credit
+- [X] game over / credit
 ** DONE rearrange all agendas (most important ones, not small snippets in challenges) in to a single file, agendas
 ** DONE enter start up scene at first without drawing the other scenes
-** TODO enter game over / credit scene when player health is 0
+** DONE enter game over / credit scene when player health is 0
 ** TODO implement a challenge switcher that can manage agendas and scripts
 ** TODO make scenes and challenges able to manage a sorted manner instead of random loading
 ** TODO support writing scenes, challenges or similar in subdirectorys
