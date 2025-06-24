@@ -12,3 +12,5 @@
 ** TODO implement a challenge switcher that can manage agendas and scripts
 ** TODO make scenes and challenges able to manage a sorted manner instead of random loading
 ** TODO support writing scenes, challenges or similar in subdirectorys
+** TODO rewrite everything in wisp and use the chickadee template myself
+** TODO reorganize everything in modules instead of including
