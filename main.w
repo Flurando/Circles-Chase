@@ -19,15 +19,15 @@ use-modules
   chickadee math rect
   chickadee math vector
   chickadee scripting
+  ;; local modules
+  utils
 
 define repl : spawn-coop-repl-server
 
 define *window* #f
 define *window-keyboard-focused?* #f
 
-include "setup.scm"
-include "utils.scm"
-include "agendas.scm"
+include "agendas.w"
 include "player.scm"
 include "enemy.scm"
 include "score.scm"
@@ -58,6 +58,7 @@ define : window-keyboard-leave
 ;;; real main procedures
 ;; LOAD
 define : load
+  set! *random-state* : random-state-from-platform ; *random-state* is a global variable provided by guile, a seed for generating peseudo random sequence.
   set! *window* : current-window
   
 ;; DRAW
