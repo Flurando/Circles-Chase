@@ -1,5 +1,5 @@
 #!/bin/sh
-exec guile -L ./ -x .w --language=wisp --no-auto-compile -s $0
+exec guile -L ./ -x .w --language=wisp --no-auto-compile -s "$0" "$@"
 !#
 
 use-modules
@@ -21,13 +21,17 @@ use-modules
   chickadee scripting
   ;; local modules
   utils
+  ;; helper
+  (ice-9 ftw) #:select : scandir
 
 define repl : spawn-coop-repl-server
 
 define *window* #f
 define *window-keyboard-focused?* #f
 
-include "agendas.w"
+define score-timer : make-agenda
+define play-timer : make-agenda
+
 include "player.scm"
 include "enemy.scm"
 include "score.scm"

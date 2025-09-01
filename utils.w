@@ -1,6 +1,6 @@
 define-module : utils
-  . #:use-module (chickadee)
-  . #:export (key->1 void)
+  . #:use-module : chickadee
+  . #:export : key->1 void
 
 define : key->1 key
   if : key-pressed? key

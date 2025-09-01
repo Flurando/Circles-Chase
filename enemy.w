@@ -2,6 +2,7 @@ define-module : enemy
   . #:use-module : chickadee math vector
   . #:use-module : chickadee graphics color
   . #:use-module : chickadee graphics path
+  . #:use-module : player
   . #:export : position-list speed-list spawn! pop! clean! auto-move auto-draw
 
 define position-list '()
@@ -28,7 +29,7 @@ define : auto-move
   unless : null? position-list
     for-each
      lambda : position2 speed2
-       let :: nvec : vec2-normalize : vec2- position position2
+       let : : nvec : vec2-normalize : vec2- position position2
          vec2-add! position2 : vec2* nvec speed2
      position-list
      speed-list
@@ -37,10 +38,7 @@ define : auto-draw
   unless : null? position-list
     for-each
       lambda : position
-        let* ((painter
-       	         (with-style ((fill-color yellow))
-	            (fill (circle position 10))))
-	      (canvas (make-canvas painter)))
-	  draw-canvas canvas
+        let* ((painter (with-style ((fill-color yellow)) (fill (circle position 10)))) (canvas (make-canvas painter)))
+          draw-canvas canvas
       position-list
  
