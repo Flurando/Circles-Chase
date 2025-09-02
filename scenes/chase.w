@@ -31,6 +31,7 @@ define : cleanup!
   player-set-health! 100.0
   player-timer-reset!
   score-reset!
+  set! one-time-lock #f
   
 define-public draw
      lambda : alpha
@@ -39,22 +40,16 @@ define-public draw
        enemy-draw
 define-public update
      lambda : dt
-       display "inside chase.w\n"
        with-agenda player-timer
          update-agenda dt
-       display "agenda has been updated\n"
        ;; update
        player-move
        enemy-move
        healthbar-update
-       display "player, enemy and healthbar have been updated\n"
        ;; scene mechanics
        lose-score-when-touched!
-       display "1\n"
        unless one-time-lock
-         display "2\n"
          set! one-time-lock #t
-         display "3\n"
          with-agenda player-timer
            ;; auto spawn enemy every 3s
            every : 3 5
@@ -62,12 +57,12 @@ define-public update
            ;; add-1-score-every-5-seconds
            every 5
              score-gain! 1
-           display "4\n"
        ;; switch
-       display "5\n"
        with-agenda player-timer
          if (>= (agenda-time) 61)
-            . 0
+            begin : cleanup!
+              . 0
             if (zero? (player-get-health))
-              . 1
-              . (begin (display 6)(newline) #f)
+              begin : cleanup!
+                . 1
+              . #f

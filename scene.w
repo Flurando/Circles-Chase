@@ -47,7 +47,8 @@ define : update dt
 
 define-syntax gen-scene
   syntax-rules () : (_ name) (make-scene (@ (scenes name) draw) (@ (scenes name) update))
-
+  
+;;; below are stuff about the scenes/ folder, you shall register new ones here if you want to add new scene in that folder
 define startup-scene : gen-scene startup
 define chase-scene : gen-scene chase
 define score-and-time-scene : gen-scene score-and-time
@@ -62,4 +63,4 @@ define : load
   set-next! win-scene startup-scene
   set-next! lose-scene startup-scene
 
-  set-current-scene! play-scene
+  set-current-scene! startup-scene

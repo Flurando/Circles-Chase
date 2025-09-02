@@ -23,7 +23,6 @@ define draw
           
 define update
       lambda : dt
-        display "\n7\n"
         . #f
 
 
