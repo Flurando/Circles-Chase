@@ -18,7 +18,7 @@ define : make-empty-scene
 
 define current-scene : make-empty-scene
 
-define : set-current-scene! new-scene ; dangerous procedure, only intended to be use by specified (now, scenes.w) module to set the first scene to display
+define : set-current-scene! new-scene ; dangerous procedure, only intended to be use by specified module to set the first scene to display
     set! current-scene new-scene
   
 define : combine-scene scene-list
@@ -31,7 +31,7 @@ define : draw alpha
   (get-draw current-scene) alpha
 
 define : update dt
-  set-state! current-scene : (get-update current-scene) dt ; play-scene can't pass this line
+  set-state! current-scene : (get-update current-scene) dt
   ;; when current scene is over
   ;; state: #f means can't switch
   ;; since #t can be other stuff, it would be easier to have multiple next
