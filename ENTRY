@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+exec guile -L ./ -x .w --language=wisp --auto-compile -s ./game.w
