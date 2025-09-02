@@ -13,8 +13,9 @@
 ** DONE support writing scenes, challenges or similar in subdirectorys
 ** DONE rewrite everything in wisp and use the chickadee template myself
 ** DONE reorganize everything in modules instead of including
-** TODO move every outside components which uses draw and update into the scenes
+** TODO move every outside components which uses draw and update into the scenes [0/3]
 - [] player
 - [] enemy
 - [] healthbar
 ** TODO embed score.w stuff into the score-and-time scene
+** TODO combine win and lose scene into a more portable one line message scene
