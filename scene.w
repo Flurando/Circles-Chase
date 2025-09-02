@@ -49,6 +49,7 @@ define-syntax gen-scene
   syntax-rules () : (_ name) (make-scene (@ (scenes name) draw) (@ (scenes name) update))
   
 ;;; below are stuff about the scenes/ folder, you shall register new ones here if you want to add new scene in that folder
+
 ;; the first scene to show when the game is started
 define startup-scene : gen-scene startup ; main scene
 
