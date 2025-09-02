@@ -2,15 +2,19 @@
 ** DONE substract 1 from score when enemy touches player
 ** DONE implement a health bar that changes when player is touched by enemy
 ** DONE implement a scene switch machenism
-** TODO write some scenes [2/3]
+** DONE write some scenes [3/3]
 - [X] start up
-- [ ] win
+- [X] win
 - [X] game over / credit
 ** DONE rearrange all agendas (most important ones, not small snippets in challenges) in to a single file, agendas
 ** DONE enter start up scene at first without drawing the other scenes
 ** DONE enter game over / credit scene when player health is 0
-** TODO implement a challenge switcher that can manage agendas and scripts
-** TODO make scenes and challenges able to manage a sorted manner instead of random loading
-** TODO support writing scenes, challenges or similar in subdirectorys
-** TODO rewrite everything in wisp and use the chickadee template myself
-** TODO reorganize everything in modules instead of including
+** DONE make scenes and challenges able to manage a sorted manner instead of random loading
+** DONE support writing scenes, challenges or similar in subdirectorys
+** DONE rewrite everything in wisp and use the chickadee template myself
+** DONE reorganize everything in modules instead of including
+** TODO move every outside components which uses draw and update into the scenes
+- [] player
+- [] enemy
+- [] healthbar
+** TODO embed score.w stuff into the score-and-time scene
