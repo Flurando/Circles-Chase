@@ -3,7 +3,7 @@ define-module : enemy
   . #:use-module : chickadee graphics color
   . #:use-module : chickadee graphics path
   . #:use-module : (player) #:prefix player-
-  . #:export : get-position-list spawn! pop! clean! move draw
+  . #:export : get-position-list spawn! pop! clean! update draw
 
 define position-list '()
 
@@ -29,7 +29,7 @@ define : clean!
   set! position-list '()
   set! speed-list '()
 
-define : move
+define : update
   unless : null? position-list
     for-each
      lambda : position2 speed2

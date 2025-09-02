@@ -6,7 +6,7 @@ define-module : scenes chase
   . #:use-module : (healthbar) #:prefix healthbar-
   . #:use-module : (player) #:prefix player-
   . #:use-module : (enemy) #:prefix enemy-
-  . #:use-module : score
+  . #:use-module : (scenes score-and-time) #:select : score-to-show score-lose! score-gain! score-reset! timer timer-reset!
 
 define one-time-lock #f
 
@@ -29,7 +29,7 @@ define : lose-score-when-touched!
 define : cleanup!
   enemy-clean!
   player-set-health! 100.0
-  player-timer-reset!
+  timer-reset!
   score-reset!
   set! one-time-lock #f
   
@@ -40,17 +40,17 @@ define-public draw
        enemy-draw
 define-public update
      lambda : dt
-       with-agenda player-timer
+       with-agenda timer
          update-agenda dt
        ;; update
-       player-move
-       enemy-move
+       player-update
+       enemy-update
        healthbar-update
        ;; scene mechanics
        lose-score-when-touched!
        unless one-time-lock
          set! one-time-lock #t
-         with-agenda player-timer
+         with-agenda timer
            ;; auto spawn enemy every 3s
            every : 3 5
              enemy-spawn!
@@ -58,7 +58,7 @@ define-public update
            every 5
              score-gain! 1
        ;; switch
-       with-agenda player-timer
+       with-agenda timer
          if (>= (agenda-time) 61)
             begin : cleanup!
               . 0
