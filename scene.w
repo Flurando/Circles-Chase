@@ -49,14 +49,21 @@ define-syntax gen-scene
   syntax-rules () : (_ name) (make-scene (@ (scenes name) draw) (@ (scenes name) update))
   
 ;;; below are stuff about the scenes/ folder, you shall register new ones here if you want to add new scene in that folder
-define startup-scene : gen-scene startup
-define chase-scene : gen-scene chase
-define healthbar-scene : gen-scene healthbar
-define score-and-time-scene : gen-scene score-and-time
+;; the first scene to show when the game is started
+define startup-scene : gen-scene startup ; main scene
+
+;; main game play components
+define chase-scene : gen-scene chase ; mechanics of the game
+define healthbar-scene : gen-scene healthbar ; draw healthbar
+define score-and-time-scene : gen-scene score-and-time ; type score and time passed
+define player-scene : gen-scene player ; draw player
+define enemy-scene : gen-scene enemy ; draw enemy
+
+define play-scene : combine-scene : list chase-scene score-and-time-scene healthbar-scene player-scene enemy-scene ; combined together as the main game scene
+
+;; special scene
 define win-scene : gen-scene win
 define lose-scene : gen-scene lose
-
-define play-scene : combine-scene : list chase-scene score-and-time-scene healthbar-scene
 
 define : load  
   set-next! startup-scene play-scene

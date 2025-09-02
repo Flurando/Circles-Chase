@@ -2,7 +2,7 @@ define-module : scenes healthbar
   . #:use-module : chickadee math vector
   . #:use-module : chickadee graphics path
   . #:use-module : chickadee graphics color
-  . #:use-module : (player) #:prefix player-
+  . #:use-module : (scenes player) #:prefix player-
   . #:export : draw update
 
 define : draw alpha

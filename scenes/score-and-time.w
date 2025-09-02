@@ -4,7 +4,7 @@ define-module : scenes score-and-time
   . #:use-module : (chickadee graphics text) #:select : draw-text
   . #:use-module : (chickadee graphics color) #:select : red
   . #:use-module : (chickadee scripting)
-  . #:use-module : (player) #:prefix player-
+  . #:use-module : (scenes player) #:prefix player-
   . #:export : draw update score-to-show score-lose! score-gain! score-reset! timer timer-reset!
   
 define draw

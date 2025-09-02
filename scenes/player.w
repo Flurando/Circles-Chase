@@ -1,4 +1,4 @@
-define-module : player
+define-module : scenes player
   . #:use-module : chickadee
   . #:use-module : chickadee scripting
   . #:use-module : chickadee math
@@ -33,13 +33,13 @@ define : key->1 key
     . 1
     . 0
     
-define : update
+define : update dt
   let : : nvec : vec2-normalize : vec2 (- (key->1 'd) (key->1 'a)) (- (key->1 'w) (key->1 's))
     vec2-add! position nvec
   set-vec2-x! position : clamp 0.0 640.0 : vec2-x position
   set-vec2-y! position : clamp 0.0 480.0 : vec2-y position
 
-define : draw
+define : draw alpha
   let : : painter : with-style ([fill-color green]) : fill : circle position 10.0
     set-canvas-painter! canvas painter
     draw-canvas canvas

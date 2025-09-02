@@ -1,8 +1,8 @@
-define-module : enemy
+define-module : scenes enemy
   . #:use-module : chickadee math vector
   . #:use-module : chickadee graphics color
   . #:use-module : chickadee graphics path
-  . #:use-module : (player) #:prefix player-
+  . #:use-module : (scenes player) #:prefix player-
   . #:export : get-position-list spawn! pop! clean! update draw
 
 define position-list '()
@@ -29,7 +29,7 @@ define : clean!
   set! position-list '()
   set! speed-list '()
 
-define : update
+define : update dt
   unless : null? position-list
     for-each
      lambda : position2 speed2
@@ -38,7 +38,7 @@ define : update
      . position-list
      . speed-list
 
-define : draw
+define : draw alpha
   unless : null? position-list
     for-each
       lambda : position
