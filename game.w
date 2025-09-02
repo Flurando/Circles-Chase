@@ -7,8 +7,6 @@ define-module : game
   . #:use-module : chickadee graphics color
   ;; scene
   . #:use-module : (scene) #:select (load draw update) #:prefix scene-
-  ;; healthar, might later moved to scene
-  . #:use-module : (healthbar) #:prefix healthbar-
   
 define repl : spawn-coop-repl-server
 
@@ -40,7 +38,6 @@ define : window-keyboard-leave
 define : load
   set! *random-state* : random-state-from-platform ; *random-state* is a global variable provided by guile, a seed for generating peseudo random sequence.
   set! *window* : current-window
-  healthbar-load
   scene-load
   
 ;; DRAW

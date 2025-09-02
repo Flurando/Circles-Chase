@@ -1,6 +1,6 @@
 define-module : scene
   . #:use-module : srfi srfi-9
-  . #:export : load draw update <scene> make-scene combine-scene set-current-scene! set-next! set-state! get-draw get-update
+  . #:export : load draw update make-scene combine-scene set-current-scene! set-next! set-state! get-draw get-update
 
 define-record-type <scene>
   %make-scene state draw update next
@@ -51,11 +51,12 @@ define-syntax gen-scene
 ;;; below are stuff about the scenes/ folder, you shall register new ones here if you want to add new scene in that folder
 define startup-scene : gen-scene startup
 define chase-scene : gen-scene chase
+define healthbar-scene : gen-scene healthbar
 define score-and-time-scene : gen-scene score-and-time
 define win-scene : gen-scene win
 define lose-scene : gen-scene lose
 
-define play-scene : combine-scene : list chase-scene score-and-time-scene
+define play-scene : combine-scene : list chase-scene score-and-time-scene healthbar-scene
 
 define : load  
   set-next! startup-scene play-scene

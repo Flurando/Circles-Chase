@@ -3,7 +3,6 @@ define-module : scenes chase
   . #:use-module : (chickadee math) #:select : clamp
   . #:use-module : (chickadee math rect)
   . #:use-module : (chickadee math vector)
-  . #:use-module : (healthbar) #:prefix healthbar-
   . #:use-module : (player) #:prefix player-
   . #:use-module : (enemy) #:prefix enemy-
   . #:use-module : (scenes score-and-time) #:select : score-to-show score-lose! score-gain! score-reset! timer timer-reset!
@@ -35,7 +34,6 @@ define : cleanup!
   
 define-public draw
      lambda : alpha
-       healthbar-draw
        player-draw
        enemy-draw
 define-public update
@@ -45,7 +43,6 @@ define-public update
        ;; update
        player-update
        enemy-update
-       healthbar-update
        ;; scene mechanics
        lose-score-when-touched!
        unless one-time-lock
