@@ -1,2 +1,2 @@
-#!/usr/bin/env -S guix shell --pure bash-minimal guile guile-chickadee guile-wisp -- bash
-exec guile -L ./ -x .w --language=wisp --no-auto-compile -s ./game.w
+#!/usr/bin/env -S guix shell bash-minimal guile guile-chickadee guile-wisp -- bash
+exec wisp -L ./ --auto-compile -s ./game.w

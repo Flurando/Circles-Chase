@@ -1,0 +1,10 @@
+HACKING
+
+This file is about how to tweak this project.
+You are supposed to read this first even though you are strong and brave enough to read source code like drinking water, at least to save some time.
+
+ENTRY is a shell script that uses Guix package manager to launch this game with required dependencies. Test or play the game with it.
+game.w is programmatically the entry point, with a skeleton, or as someone says, boilerplate code, or framework whatever.
+scene.w is very important as it defines "scene" data type, which is basically just binded draw and update procedures. It also selectively imports the draw and update procedures defined and exported in the scene folder, to make scenes, and possibly combine them, at last define the order in which scenes are shown.
+scenes folder contains files that is a guile module each, must export at least a draw and an update procedure, which might be used in scene.w to construct scenes.
+
