@@ -13,4 +13,27 @@ all changes are supposed to be in scene.w and those modules in scenes/ folder.
 Recently there is no assets included, but I plan to keep the assets loading in scene.w only, without letting scenes/ modules do it themselves.
 How? By using assets folder and macros to automatically load all files whose names defined in some variable inside scene.w in the load procedure. Of course, first a bunch of define-publics #f, then in load, a bunch of set!. I am not good at macros, so this would be a hard work, teaching or even patches/pull requests are welcomed!
 
-In scene.w, you should focus on 
+In scene.w, you should focus on register-scene, combine-scene, set-next! and set-current-scene! and of course, load.
+for example, you write a new scene at scenes/where-dream-start/nightmare-background.w
+containing the content below <<EOF
+define-module : scenes where-dream-start nightmare-background
+  . #:export : draw update
+  
+define draw
+  lambda : alpha
+    . *unspecified*
+         
+define update
+  lambda : dt
+    . #f
+EOF
+To use it in scene.w, first use register-scene where-dream-start nightmare-background
+it would generate a <scene> record referred by variable where-dream-start-nightmare-background-scene
+I know this might confuse at some time by using "-", but I am not sure among following scheme naming tradition or dict creation which is more important. If you have any ideas, contact me.
+then use set-next! and/or set-current-scene! in the load procedure.
+I wrote combine-scene so that you might easily manage a logically large scene with multiple small units.
+note that the first scene passed in the list to combine-scene would be the main scene,
+because its update procedure return value is combined scene's update procedure return value.
+Why does this matters, you may wonder.
+Because the state of the <scene> record would be set to the return value of update procedure by update inside scene.w, and the state (the exact return value) is used to determine whether and even which next scene to switch, #f meaning "don't switch!", anything that let (when e body ...) executes body ... means "please switch!"
+if you have multiple next scene possible, you must make the non-#f return value 0, 1, 2, and so on because these are directly passed to list-ref when selecting the next scene to play. Correspondently, you are supposed to upass a list of scenes as the sencond argument to set-next! procedure.
