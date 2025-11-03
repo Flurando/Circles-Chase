@@ -37,3 +37,13 @@ because its update procedure return value is combined scene's update procedure r
 Why does this matters, you may wonder.
 Because the state of the <scene> record would be set to the return value of update procedure by update inside scene.w, and the state (the exact return value) is used to determine whether and even which next scene to switch, #f meaning "don't switch!", anything that let (when e body ...) executes body ... means "please switch!"
 if you have multiple next scene possible, you must make the non-#f return value 0, 1, 2, and so on because these are directly passed to list-ref when selecting the next scene to play. Correspondently, you are supposed to upass a list of scenes as the sencond argument to set-next! procedure.
+
+For hot reload, the game.w by default launches a coop server.
+You can connect to it with telnet localhost 37146.
+However, since we use wisp language,
+and seemingly geiser-wisp is not usable and discontinued
+(from source code seemingly the author just ran sed "s/guile/wisp/g;" stuff)
+If you geiser-connect in emacs, it would ran into error because of the lack of markup.
+And I haven't found any walkaround.
+So basically you could not enjoy emacs when playing with this project.
+Or you can ran guix shell guile-wisp -- wisp2lisp <filename> > <filename> for every .w files in this project.

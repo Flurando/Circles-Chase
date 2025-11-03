@@ -24,3 +24,5 @@
 Use two macro and a variable to load all assets.
 By using assets folder and macros to automatically load all files whose names defined in some variable, in the load procedure in scene.w.
 Of course, first a bunch of define-publics #f, then in load, a bunch of set!.
+** TODO write a GitHub Action in main branch to automatically maintain a Scheme branch
+Let the action transform all wisp files to scheme files, so that emacs geiser could step in.
