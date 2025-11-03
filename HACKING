@@ -8,3 +8,9 @@ game.w is programmatically the entry point, with a skeleton, or as someone says,
 scene.w is very important as it defines "scene" data type, which is basically just binded draw and update procedures. It also selectively imports the draw and update procedures defined and exported in the scene folder, to make scenes, and possibly combine them, at last define the order in which scenes are shown.
 scenes folder contains files that is a guile module each, must export at least a draw and an update procedure, which might be used in scene.w to construct scenes.
 
+Without specific reason, you should not need to modify game.w.
+all changes are supposed to be in scene.w and those modules in scenes/ folder.
+Recently there is no assets included, but I plan to keep the assets loading in scene.w only, without letting scenes/ modules do it themselves.
+How? By using assets folder and macros to automatically load all files whose names defined in some variable inside scene.w in the load procedure. Of course, first a bunch of define-publics #f, then in load, a bunch of set!. I am not good at macros, so this would be a hard work, teaching or even patches/pull requests are welcomed!
+
+In scene.w, you should focus on 
