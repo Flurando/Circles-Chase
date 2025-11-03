@@ -20,3 +20,7 @@
 ** DONE embed score.w stuff into the score-and-time scene
 ** TODO (not planned) combine win and lose scene into a more portable one line message scene
 ** TODO write a portable message scene, like a jumpout window
+** TODO implement assets system
+Use two macro and a variable to load all assets.
+By using assets folder and macros to automatically load all files whose names defined in some variable, in the load procedure in scene.w.
+Of course, first a bunch of define-publics #f, then in load, a bunch of set!.
