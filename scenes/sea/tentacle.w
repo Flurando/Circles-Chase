@@ -142,10 +142,10 @@ define update
         when d-pressed
           set! *offset* : clamp -1 1 {*offset* - dt}
         when s-pressed
-          set! *initial-y-for-end-point* : clamp 0.0 480.0 {*initial-y-for-end-point* - 5.0}
-          reset-var!
+          set! *initial-y-for-end-point* : clamp 10.0 480.0 {*initial-y-for-end-point* - 5.0} ; see the lower bound 10? game stucks when setting this to 0, seemingly the end point should not be 0 while a controller point is not
         when w-pressed
-          set! *initial-y-for-end-point* : clamp 0.0 480.0 {*initial-y-for-end-point* + 5.0}
+          set! *initial-y-for-end-point* : clamp 10.0 480.0 {*initial-y-for-end-point* + 5.0}
+        when : or s-pressed w-pressed
           reset-var!
         unless : or a-pressed d-pressed
           if : zero? *offset*

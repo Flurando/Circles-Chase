@@ -75,24 +75,15 @@ define-syntax register-scene
 register-scene startup
 
 ;; main game play components
-register-scene chase
+register-scene main
 register-scene healthbar
 register-scene score-and-time
-register-scene player
-register-scene enemy
-
 register-scene sea tentacle
 
-define play-scene : combine-scene : list chase-scene score-and-time-scene healthbar-scene player-scene enemy-scene ; combined together as the main game scene
-
-;; special scene
-register-scene win
-register-scene lose
+define play-scene : combine-scene : list main-scene sea-tentacle-scene score-and-time-scene healthbar-scene ; combined together as the main game scene
 
 define : load  
   set-next! startup-scene play-scene
-  set-next! play-scene : list win-scene lose-scene
-  set-next! win-scene startup-scene
-  set-next! lose-scene startup-scene
+  set-next! play-scene : list startup-scene startup-scene
 
-  set-current-scene! sea-tentacle-scene
+  set-current-scene! startup-scene

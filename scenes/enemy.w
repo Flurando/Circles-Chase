@@ -30,13 +30,7 @@ define : clean!
   set! speed-list '()
 
 define : update dt
-  unless : null? position-list
-    for-each
-     lambda : position2 speed2
-       let : : nvec : vec2-normalize : vec2- (player-get-position) position2
-         vec2-add! position2 : vec2* nvec speed2
-     . position-list
-     . speed-list
+  . #f
 
 define : draw alpha
   unless : null? position-list

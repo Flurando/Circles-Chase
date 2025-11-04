@@ -7,39 +7,11 @@ define-module : scenes player
   . #:use-module : chickadee graphics color
   . #:use-module : chickadee graphics path
   . #:use-module : srfi srfi-9
-  . #:export : get-position set-position! get-health set-health! update draw
+  . #:export : get-health set-health!
 
-define position (vec2 240 80)
-define health 20
-
-define : get-position
-  . position
-  
-define : set-position! vec
-  set! position vec
-  
+define health 100
 define : get-health
   . health
 
 define : set-health! int
   set! health int
-
-define canvas
-  make-empty-canvas #:matrix
-    make-matrix3 1 0 0 0 1 0 0 0 1
-
-define : key->1 key
-  if : key-pressed? key
-    . 1
-    . 0
-    
-define : update dt
-  let : : nvec : vec2-normalize : vec2 (- (key->1 'd) (key->1 'a)) (- (key->1 'w) (key->1 's))
-    vec2-add! position nvec
-  set-vec2-x! position : clamp 0.0 640.0 : vec2-x position
-  set-vec2-y! position : clamp 0.0 480.0 : vec2-y position
-
-define : draw alpha
-  let : : painter : with-style ([fill-color green]) : fill : circle position 10.0
-    set-canvas-painter! canvas painter
-    draw-canvas canvas
