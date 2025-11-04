@@ -1,5 +1,6 @@
 define-module : scenes race lane
   . #:use-module : (chickadee) #:select : key-pressed?
+  . #:use-module : (chickadee math) #:select : clamp
   . #:use-module : (chickadee math vector) #:select : vec2
   . #:use-module : (chickadee math bezier) #:select : make-bezier-curve bezier-curve-point-at
   . #:use-module : (chickadee math easing) #:select : smoothstep
@@ -20,10 +21,10 @@ define : get-lane offset
 define-syntax draw-point
   lambda : x
     syntax-case x ()
-      (_ color point width height)
+      (_ color point width height) ; here point is the center of the rectangle
         with-syntax
-          : point-x #'((@ (chickadee math vector) vec2-x) point)
-            point-y #'((@ (chickadee math vector) vec2-y) point)
+          : point-x #'(- ((@ (chickadee math vector) vec2-x) point) (/ width 2))
+            point-y #'(- ((@ (chickadee math vector) vec2-y) point) (/ height 2))
           . #'(fill-rounded-rectangle color point-x point-y width height)
 define-syntax draw-point-with-random-color
   lambda : x
@@ -32,10 +33,38 @@ define-syntax draw-point-with-random-color
         with-syntax
           : color #`((@ (chickadee graphics color) make-color) #,(random 1.0) #,(random 1.0) #,(random 1.0) 1.0)
           . #'(draw-point color point width height)
-define : draw-lane lane ; lane is just the bezier-curve returned by get-lane
-  . *unspecified*
+define-syntax draw-point-with-random-color-by-point-y
+  lambda : x
+    syntax-case x ()
+      (_ point)
+        with-syntax
+          : point-y #'((@ (chickadee math vector) vec2-y) point)
+          with-syntax ; here we suppose nearest is 200 wide, the farest is 20 wide, with height always 5
+            : height #'5
+              width #'{{-1/2 * point-y} + 200}
+            . #'(draw-point-with-random-color point width height)
+define-syntax draw-lane-with-offset
+  lambda : x
+    syntax-case x ()
+      (_ offset)
+        with-syntax
+          : lane #'(get-lane offset)
+          syntax
+            ;; we need a bunch of t between 0 and 1 to be feed to bezier-curve-point-at
+            ;; (bezier-curve-point-at lane t)
+            ;; for each t, it returns a vec2 to be feed to draw-point-with-random-color-by-point-y
+            let : : step 1/10 ; use 1/n if we want to draw (n+1) points
+              let loop : : t 0
+                if {t > 1}
+                  . *unspecified*
+                  begin
+                    draw-point-with-random-color-by-point-y : bezier-curve-point-at lane t
+                    loop {t + step}
+                
   
-;; a single line, when drawing initial lane, make the width in line function like y=kt+b where t is a value in [0,1], same of that passed to bezeir curve at point procedure
+;; a single line, when drawing initial lane, make the width in line function like w=ky+b
+;; y=0, w=200; y=360, w=20
+;; so k=-1/2, b=200
 ;; start(double!) would always be (320, 0) and end would initally be at (320, 360) for easiness, while that above y=360 would be sky or anything else
 define *initial-x-for-start-point* 320.0
 define *initial-y-for-start-point* 0.0
@@ -87,10 +116,24 @@ define : get-end offset
 ;; however we can just make a local memory, so if the last offset abs 0->1 is drawn on top, now we draw it on bottom
 ;; in this way we can make sure they take turns
 ;; the problem becomes how to make a procedure to manage the local memory about last drawn stuff
-  
-define : draw alpha
-  fill-rounded-rectangle blue 100.0 250.0 440.0 200.0
 
+define *offset* 0
+
+define : draw alpha
+  draw-lane-with-offset *offset*
 define update
     lambda : dt
-      . #f
+      let
+        : a-pressed : key-pressed? 'a
+          d-pressed : key-pressed? 'd
+        when a-pressed
+          set! *offset* : clamp -1 1 {*offset* - dt}
+        when d-pressed
+          set! *offset* : clamp -1 1 {*offset* + dt}
+        unless : or a-pressed d-pressed
+          set! *offset*
+            if : zero? *offset*
+              . *unspecified*
+              if : positive? *offset*
+                set! *offset* : clamp 0 *offset* : - *offset* dt
+                set! *offset* : clamp *offset* 0 : + *offset* dt
