@@ -3,7 +3,7 @@ define-module : scenes race lane
   . #:use-module : (chickadee math) #:select : clamp
   . #:use-module : (chickadee math vector) #:select : vec2
   . #:use-module : (chickadee math bezier) #:select : make-bezier-curve bezier-curve-point-at
-  . #:use-module : (chickadee math easing) #:select : smoothstep
+  . #:use-module : (chickadee math easings) #:select : smoothstep
   . #:use-module : utils graphics
   . #:use-module : srfi srfi-9
   . #:export : draw update
@@ -53,7 +53,7 @@ define-syntax draw-lane-with-offset
             ;; we need a bunch of t between 0 and 1 to be feed to bezier-curve-point-at
             ;; (bezier-curve-point-at lane t)
             ;; for each t, it returns a vec2 to be feed to draw-point-with-random-color-by-point-y
-            let : : step 1/10 ; use 1/n if we want to draw (n+1) points
+            let : : step 1/30 ; use 1/n if we want to draw (n+1) points
               let loop : : t 0
                 if {t > 1}
                   . *unspecified*
@@ -68,14 +68,18 @@ define-syntax draw-lane-with-offset
 ;; start(double!) would always be (320, 0) and end would initally be at (320, 360) for easiness, while that above y=360 would be sky or anything else
 define *initial-x-for-start-point* 320.0
 define *initial-y-for-start-point* 0.0
-define : get-start offset
-  vec2 *initial-x-for-start-point* *initial-y-for-start-point*
-  
+define *initial-x-for-end-point* *initial-x-for-start-point*
+define *initial-y-for-end-point* 360.0
 define *initial-x-for-control-point* *initial-x-for-start-point*
 define *initial-y-for-control-point* *initial-y-for-end-point*
 define *b-for-control-point-ecllipse* : abs {{*initial-y-for-end-point* - *initial-y-for-start-point*} / 2}
 define *a-for-control-point-ecllipse* : abs {*b-for-control-point-ecllipse* / 2}
 define *last-control-drew-is-on-top* #f ; start with #f because initially there is no last drew, and we do start on top for the first draw
+define *largest-offset-for-end-point* : abs {*a-for-control-point-ecllipse* + {{*b-for-control-point-ecllipse* - *a-for-control-point-ecllipse*} / 3}}
+
+define : get-start offset
+  vec2 *initial-x-for-start-point* *initial-y-for-start-point*
+  
 define : get-control offset
   define abs-offset : abs offset
   define sym-offset : if (zero? offset) 0 : if (positive? offset) 1 -1
@@ -88,9 +92,6 @@ define : get-control offset
   define x {*initial-x-for-control-point* + {sym-offset * (sqrt {1 - (square {{y - {*initial-y-for-control-point* - *b-for-control-point-ecllipse*}} / {*initial-y-for-control-point* - *b-for-control-point-ecllipse*}})})}}
   vec2 x y
   
-define *initial-x-for-end-point* *initial-x-for-start-point*
-define *initial-y-for-end-point* 360.0
-define *largest-offset-for-end-point* : abs {*a-for-control-point-ecllipse* + {{*b-for-control-point-ecllipse* - *a-for-control-point-ecllipse*} / 3}}
 define : get-end offset
   if : zero? offset
     vec2 *initial-x-for-end-point* *initial-y-for-end-point*
@@ -127,13 +128,16 @@ define update
         : a-pressed : key-pressed? 'a
           d-pressed : key-pressed? 'd
         when a-pressed
-          set! *offset* : clamp -1 1 {*offset* - dt}
-        when d-pressed
           set! *offset* : clamp -1 1 {*offset* + dt}
+        when d-pressed
+          set! *offset* : clamp -1 1 {*offset* - dt}
         unless : or a-pressed d-pressed
-          set! *offset*
-            if : zero? *offset*
-              . *unspecified*
-              if : positive? *offset*
+          if : zero? *offset*
+            . #f
+            if : positive? *offset*
+              begin
                 set! *offset* : clamp 0 *offset* : - *offset* dt
+                . #f
+              begin
                 set! *offset* : clamp *offset* 0 : + *offset* dt
+                . #f
