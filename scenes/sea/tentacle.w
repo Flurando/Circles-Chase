@@ -6,7 +6,7 @@ define-module : scenes sea tentacle
   . #:use-module : (chickadee math easings) #:select : smoothstep
   . #:use-module : utils graphics
   . #:use-module : srfi srfi-9
-  . #:export : draw update
+  . #:export : draw update get-position
 
 ;; suppose the default lane is represented by quadratic bezier curve
 ;; we emulate this using chickadee's cubic version with two same start point
@@ -39,8 +39,8 @@ define-syntax draw-point-with-random-color-by-point-y
       (_ point)
         with-syntax
           : point-y #'((@ (chickadee math vector) vec2-y) point)
-          with-syntax ; here we suppose nearest is 200 wide, the farest is 20 wide, with height always 12
-            : height #'20
+          with-syntax ; here we suppose nearest is 200 wide, the farest is 20 wide
+            : height #'30
               width #'{{(- {180 / {*initial-y-for-end-point* - *initial-y-for-start-point*}}) * point-y} + 200}
             . #'(draw-point-with-random-color point width height)
 define-syntax draw-lane-with-offset
@@ -53,7 +53,7 @@ define-syntax draw-lane-with-offset
             ;; we need a bunch of t between 0 and 1 to be feed to bezier-curve-point-at
             ;; (bezier-curve-point-at lane t)
             ;; for each t, it returns a vec2 to be feed to draw-point-with-random-color-by-point-y
-            let : : step 1/30 ; use 1/n if we want to draw (n+1) points
+            let : : step 1/5 ; use 1/n if we want to draw (n+1) points
               let loop : : t 0
                 if {t > 1}
                   . *unspecified*
@@ -124,6 +124,8 @@ define : get-end offset
 
 define *offset* 0
 
+define : get-position
+  get-end *offset*
 define : draw alpha
   draw-lane-with-offset *offset*
   draw-point green : get-end *offset*
