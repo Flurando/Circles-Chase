@@ -1,4 +1,4 @@
-define-module : scenes race lane
+define-module : scenes sea tentacle
   . #:use-module : (chickadee) #:select : key-pressed?
   . #:use-module : (chickadee math) #:select : clamp
   . #:use-module : (chickadee math vector) #:select : vec2
@@ -12,7 +12,7 @@ define-module : scenes race lane
 ;; we emulate this using chickadee's cubic version with two same start point
 define : make-quadratic-bezier-curve p0 p1 p2
   make-bezier-curve p0 p0 p1 p2
-define : get-lane offset
+define : get-tentacle offset
   make-quadratic-bezier-curve
     get-start offset
     get-control offset
@@ -31,7 +31,7 @@ define-syntax draw-point-with-random-color
     syntax-case x ()
       (_ point width height)
         with-syntax
-          : color #`((@ (chickadee graphics color) make-color) #,(random 1.0) #,(random 1.0) #,(random 1.0) 1.0)
+          : color #`((@ (chickadee graphics color) make-color) #,(random 1.0) (random 0.6) (random 0.6) 1.0) ; the later two without #, would shine or sparkle!
           . #'(draw-point color point width height)
 define-syntax draw-point-with-random-color-by-point-y
   lambda : x
@@ -39,16 +39,16 @@ define-syntax draw-point-with-random-color-by-point-y
       (_ point)
         with-syntax
           : point-y #'((@ (chickadee math vector) vec2-y) point)
-          with-syntax ; here we suppose nearest is 200 wide, the farest is 20 wide, with height always 5
-            : height #'5
-              width #'{{-1/2 * point-y} + 200}
+          with-syntax ; here we suppose nearest is 200 wide, the farest is 20 wide, with height always 12
+            : height #'20
+              width #'{{(- {180 / {*initial-y-for-end-point* - *initial-y-for-start-point*}}) * point-y} + 200}
             . #'(draw-point-with-random-color point width height)
 define-syntax draw-lane-with-offset
   lambda : x
     syntax-case x ()
       (_ offset)
         with-syntax
-          : lane #'(get-lane offset)
+          : lane #'(get-tentacle offset)
           syntax
             ;; we need a bunch of t between 0 and 1 to be feed to bezier-curve-point-at
             ;; (bezier-curve-point-at lane t)
@@ -74,8 +74,14 @@ define *initial-x-for-control-point* *initial-x-for-start-point*
 define *initial-y-for-control-point* *initial-y-for-end-point*
 define *b-for-control-point-ecllipse* : abs {{*initial-y-for-end-point* - *initial-y-for-start-point*} / 2}
 define *a-for-control-point-ecllipse* : abs {*b-for-control-point-ecllipse* / 2}
-define *last-control-drew-is-on-top* #f ; start with #f because initially there is no last drew, and we do start on top for the first draw
-define *largest-offset-for-end-point* : abs {*a-for-control-point-ecllipse* + {{*b-for-control-point-ecllipse* - *a-for-control-point-ecllipse*} / 3}}
+define *largest-offset-for-end-point* : abs {*a-for-control-point-ecllipse* + {{*b-for-control-point-ecllipse* - *a-for-control-point-ecllipse*} / 0.7}}
+define : reset-var!
+  set! *initial-x-for-end-point* *initial-x-for-start-point*
+  set! *initial-x-for-control-point* *initial-x-for-start-point*
+  set! *initial-y-for-control-point* *initial-y-for-end-point*
+  set! *b-for-control-point-ecllipse* : abs {{*initial-y-for-end-point* - *initial-y-for-start-point*} / 2}
+  set! *a-for-control-point-ecllipse* : abs {*b-for-control-point-ecllipse* / 2}
+  set! *largest-offset-for-end-point* : abs {*a-for-control-point-ecllipse* + {{*b-for-control-point-ecllipse* - *a-for-control-point-ecllipse*} / 0.7}}
 
 define : get-start offset
   vec2 *initial-x-for-start-point* *initial-y-for-start-point*
@@ -84,9 +90,7 @@ define : get-control offset
   define abs-offset : abs offset
   define sym-offset : if (zero? offset) 0 : if (positive? offset) 1 -1
   define y
-    if *last-control-drew-is-on-top* ; this flag is ought to be managed by other procedure, we just use it here
-      . {{*initial-y-for-control-point* - *b-for-control-point-ecllipse*} - {(smoothstep {1 - abs-offset}) * *b-for-control-point-ecllipse*}}
-      . {{*initial-y-for-control-point* - *b-for-control-point-ecllipse*} + {(smoothstep {1 - abs-offset}) * *b-for-control-point-ecllipse*}}
+    . {{*initial-y-for-control-point* - *b-for-control-point-ecllipse*} + {(smoothstep {1 - abs-offset}) * *b-for-control-point-ecllipse*}}
   define : square x
     . {x * x}
   define x {*initial-x-for-control-point* + {sym-offset * (sqrt {1 - (square {{y - {*initial-y-for-control-point* - *b-for-control-point-ecllipse*}} / {*initial-y-for-control-point* - *b-for-control-point-ecllipse*}})})}}
@@ -122,15 +126,27 @@ define *offset* 0
 
 define : draw alpha
   draw-lane-with-offset *offset*
+  draw-point green : get-end *offset*
+    . 10 10
+
+define initial-cone-y *initial-y-for-end-point*
 define update
     lambda : dt
       let
         : a-pressed : key-pressed? 'a
           d-pressed : key-pressed? 'd
+          s-pressed : key-pressed? 's
+          w-pressed : key-pressed? 'w
         when a-pressed
           set! *offset* : clamp -1 1 {*offset* + dt}
         when d-pressed
           set! *offset* : clamp -1 1 {*offset* - dt}
+        when s-pressed
+          set! *initial-y-for-end-point* : clamp 0.0 480.0 {*initial-y-for-end-point* - 5.0}
+          reset-var!
+        when w-pressed
+          set! *initial-y-for-end-point* : clamp 0.0 480.0 {*initial-y-for-end-point* + 5.0}
+          reset-var!
         unless : or a-pressed d-pressed
           if : zero? *offset*
             . #f
@@ -140,4 +156,16 @@ define update
                 . #f
               begin
                 set! *offset* : clamp *offset* 0 : + *offset* dt
+                . #f
+        unless : or s-pressed w-pressed
+          if {initial-cone-y = *initial-y-for-end-point*}
+            . #f
+            if {initial-cone-y > *initial-y-for-end-point*}
+              begin
+                set! *initial-y-for-end-point* : clamp 0.0 initial-cone-y {*initial-y-for-end-point* + 5.0}
+                reset-var!
+                . #f
+              begin
+                set! *initial-y-for-end-point* : clamp initial-cone-y 480.0 {*initial-y-for-end-point* - 5.0}
+                reset-var!
                 . #f
