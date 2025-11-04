@@ -1,4 +1,4 @@
-define-module : scenes main
+define-module : scenes win-or-lose
   . #:use-module : (chickadee scripting)
   . #:use-module : (chickadee math) #:select : clamp
   . #:use-module : (chickadee math rect)
