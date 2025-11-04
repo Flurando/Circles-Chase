@@ -81,6 +81,8 @@ register-scene score-and-time
 register-scene player
 register-scene enemy
 
+register-scene sea tentacle
+
 define play-scene : combine-scene : list chase-scene score-and-time-scene healthbar-scene player-scene enemy-scene ; combined together as the main game scene
 
 ;; special scene
@@ -93,4 +95,4 @@ define : load
   set-next! win-scene startup-scene
   set-next! lose-scene startup-scene
 
-  set-current-scene! startup-scene
+  set-current-scene! sea-tentacle-scene
