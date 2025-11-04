@@ -1,6 +1,6 @@
 ;;; Some macros or procedures to make drawing easier
 define-module : utils graphics
-  . #:export : fill-rounded-rectangle
+  . #:export : fill-rounded-rectangle print-text
   
 define-syntax fill-rounded-rectangle
   lambda : x
@@ -25,3 +25,16 @@ define-syntax fill-rounded-rectangle
                     rounded-rectangle
                       vec2 left-bottom-x left-bottom-y
                       . width height
+
+define-syntax print-text
+  lambda : x
+    syntax-case x ()
+      (_ message left-bottom-x left-bottom-y scaler-width scaler-height)
+        with-syntax
+          : draw-text #'(@ (chickadee graphics text) draw-text)
+            vec2 #'(@ (chickadee math vector) vec2)
+          syntax
+            draw-text
+              . message
+              vec2 left-bottom-x left-bottom-y
+              . #:scale : vec2 scaler-width scaler-height

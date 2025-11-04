@@ -78,6 +78,7 @@ register-scene startup
 register-scene win-or-lose
 register-scene healthbar
 register-scene score-and-time
+register-scene show-score
 register-scene enemy
 register-scene sea tentacle
 
@@ -85,6 +86,7 @@ define play-scene : combine-scene : list win-or-lose-scene enemy-scene sea-tenta
 
 define : load  
   set-next! startup-scene play-scene
-  set-next! play-scene : list startup-scene startup-scene
+  set-next! play-scene : list show-score-scene startup-scene
+  set-next! show-score-scene startup-scene
 
-  set-current-scene! startup-scene
+  set-current-scene! play-scene
