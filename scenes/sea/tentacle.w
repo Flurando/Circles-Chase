@@ -162,7 +162,7 @@ define update
             . #f
             if {initial-cone-y > *initial-y-for-end-point*}
               begin
-                set! *initial-y-for-end-point* : clamp 0.0 initial-cone-y {*initial-y-for-end-point* + 5.0}
+                set! *initial-y-for-end-point* : clamp 10.0 initial-cone-y {*initial-y-for-end-point* + 5.0}
                 reset-var!
                 . #f
               begin
