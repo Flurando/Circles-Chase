@@ -78,9 +78,10 @@ register-scene startup
 register-scene main
 register-scene healthbar
 register-scene score-and-time
+register-scene enemy
 register-scene sea tentacle
 
-define play-scene : combine-scene : list main-scene sea-tentacle-scene score-and-time-scene healthbar-scene ; combined together as the main game scene
+define play-scene : combine-scene : list main-scene enemy-scene sea-tentacle-scene score-and-time-scene healthbar-scene ; combined together as the main game scene
 
 define : load  
   set-next! startup-scene play-scene

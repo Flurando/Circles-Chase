@@ -29,6 +29,9 @@ define : clean!
   set! position-list '()
   set! speed-list '()
 
+;; make the enemy move aimlessly
+;; need to generate normalized vector with random direction
+;; 
 define : update dt
   . #f
 
@@ -36,7 +39,7 @@ define : draw alpha
   unless : null? position-list
     for-each
       lambda : position
-        let* ((painter (with-style ((fill-color yellow)) (fill (circle position 10)))) (canvas (make-canvas painter)))
+        let* ((painter (with-style ((fill-color yellow)) (fill (circle position 50)))) (canvas (make-canvas painter)))
           draw-canvas canvas
       . position-list
  
