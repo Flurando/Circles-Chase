@@ -10,7 +10,10 @@ define-syntax fill-rounded-rectangle
           : draw-canvas #'(@ (chickadee graphics path) draw-canvas)
             make-canvas #'(@ (chickadee graphics path) make-canvas)
             with-style #'(@ (chickadee graphics path) with-style)
-            color #'(@ (chickadee graphics color) filled-color)
+            color
+              if : symbol? : syntax->datum #'filled-color
+                . #'(@ (chickadee graphics color) filled-color)
+                . #'filled-color
             fill #'(@ (chickadee graphics path) fill)
             rounded-rectangle #'(@ (chickadee graphics path) rounded-rectangle)
             vec2 #'(@ (chickadee math vector) vec2)
